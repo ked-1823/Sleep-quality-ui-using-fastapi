@@ -5,7 +5,14 @@ form.addEventListener("submit", async function (event) {
     event.preventDefault();
 
     const button = document.querySelector("button");
-    button.disabled = true;  // disable immediately
+    const resultBox = document.getElementById("result");
+    const loading = document.getElementById("loading");
+
+    // UI state start
+    button.disabled = true;
+    button.textContent = "Predicting...";
+    resultBox.textContent = "";
+    loading.style.display = "block";
 
     const data = {
         Gender: document.getElementById("Gender").value,
@@ -23,6 +30,10 @@ form.addEventListener("submit", async function (event) {
 
     try {
 
+        // Timeout controller (30 seconds max wait)
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 30000);
+
         const response = await fetch(
             "https://sleep-quality-score-fast-api.onrender.com/predict",
             {
@@ -30,24 +41,40 @@ form.addEventListener("submit", async function (event) {
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify(data)
+                body: JSON.stringify(data),
+                signal: controller.signal
             }
         );
 
+        clearTimeout(timeoutId);
+
+        if (!response.ok) {
+            throw new Error("Server responded with error");
+        }
+
         const result = await response.json();
-        console.log(result);
-        document.getElementById("result").textContent =
+
+        resultBox.textContent =
             `Predicted Sleep Quality Score: ${result.predicted_sleep_quality}`;
 
     } catch (error) {
 
+        if (error.name === "AbortError") {
+            resultBox.textContent =
+                "Server took too long to respond. It may be waking up (Render cold start). Please try again.";
+        } else {
+            resultBox.textContent =
+                "An error occurred while predicting sleep quality.";
+        }
+
         console.error("Error:", error);
 
-        document.getElementById("result").textContent =
-            "An error occurred while predicting sleep quality.";
-
     } finally {
-        button.disabled = false;  // always re-enable
+
+        // Reset UI state
+        loading.style.display = "none";
+        button.disabled = false;
+        button.textContent  = "Predict Sleep Quality";
     }
 
 });
