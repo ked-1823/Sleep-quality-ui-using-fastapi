@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sleep Quality Predictor</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", sans-serif;
+        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px; /* important for mobile spacing */
+      }
+
+      .container {
+        text-align: center;
+        width: 100%;
+      }
+
+      h1 {
+        margin-bottom: 20px;
+        color: #ffffff;
+        font-weight: 600;
+        letter-spacing: 1px;
+        font-size: 22px;
+      }
+
+      form {
+        background: #ffffff;
+        padding: 20px;
+        border-radius: 14px;
+        width: 100%;
+        max-width: 450px; /* desktop max width */
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        margin: auto;
+      }
+
+      input,
+      select {
+        padding: 10px;
+        font-size: 14px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        transition: 0.3s;
+        width: 100%;
+      }
+
+      input:focus,
+      select:focus {
+        border-color: #2c5364;
+        outline: none;
+        box-shadow: 0 0 5px rgba(44, 83, 100, 0.4);
+      }
+
+      button {
+        padding: 12px;
+        font-size: 15px;
+        border-radius: 6px;
+        border: none;
+        background: #2c5364;
+        color: white;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      button:hover {
+        background: #203a43;
+      }
+
+      #result {
+        margin-top: 15px;
+        font-weight: bold;
+        color: white;
+        font-size: 16px;
+      }
+
+      /* 📱 Extra Mobile Optimization */
+      @media (max-width: 480px) {
+        h1 {
+          font-size: 18px;
+        }
+
+        form {
+          padding: 15px;
+          gap: 8px;
+        }
+
+        input,
+        select,
+        button {
+          font-size: 13px;
+          padding: 9px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>Sleep Quality Predictor</h1>
+
+      <form id="sleepForm">
+        <select name="Gender" id="Gender" required>
+          <option value="">Select Gender</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+        </select>
+
+        <input type="number" name="Age" id="Age" placeholder="Age" required />
+
+        <select name="Occupation" id="Occupation" required>
+          <option value="">Select Occupation</option>
+          <option value="Nurse">Nurse</option>
+          <option value="Doctor">Doctor</option>
+          <option value="Engineer">Engineer</option>
+          <option value="Teacher">Teacher</option>
+          <option value="Lawyer">Lawyer</option>
+          <option value="Accountant">Accountant</option>
+          <option value="Other">Other</option>
+        </select>
+
+        <input
+          type="number"
+          step="0.1"
+          name="Sleep_Duration"
+          id="Sleep_Duration"
+          placeholder="Sleep Duration (hours)"
+          required
+        />
+
+        <input
+          type="number"
+          name="Physical_Activity_Level"
+          id="Physical_Activity_Level"
+          placeholder="Physical Activity Level"
+          required
+        />
+
+        <input
+          type="number"
+          name="Stress_Level"
+          id="Stress_Level"
+          placeholder="Stress Level (1-10)"
+          required
+        />
+
+        <select name="BMI_Category" id="BMI_Category" required>
+          <option value="">Select BMI Category</option>
+          <option value="Normal">Normal</option>
+          <option value="Overweight">Overweight</option>
+          <option value="Obese">Obese</option>
+        </select>
+
+        <input
+          type="number"
+          name="Heart_Rate"
+          id="Heart_Rate"
+          placeholder="Heart Rate (bpm)"
+          required
+        />
+
+        <input
+          type="number"
+          name="Daily_Steps"
+          id="Daily_Steps"
+          placeholder="Daily Steps"
+          required
+        />
+
+        <input
+          type="number"
+          name="Systolic_BP"
+          id="Systolic_BP"
+          placeholder="Systolic BP"
+          required
+        />
+
+        <input
+          type="number"
+          name="Diastolic_BP"
+          id="Diastolic_BP"
+          placeholder="Diastolic BP"
+          required
+        />
+
+        <button type="submit">Predict Sleep Quality</button>
+      </form>
+      <p id="result" style="margin-top: 15px; font-weight: bold"></p>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
